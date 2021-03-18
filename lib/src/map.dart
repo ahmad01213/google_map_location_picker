@@ -19,9 +19,11 @@ import 'model/location_result.dart';
 import 'utils/location_utils.dart';
 
 class MapPicker extends StatefulWidget {
+  final Function onConfirm;
   const MapPicker(
     this.apiKey, {
     Key key,
+    this.onConfirm,
     this.initialCenter,
     this.initialZoom,
     this.requiredGPS,
@@ -250,13 +252,7 @@ class MapPickerState extends State<MapPicker> {
                   Spacer(),
                   FloatingActionButton(
                     onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                          placeId: _placeId,
-                        )
-                      });
+                     widget.onConfirm();
                     },
                     child: widget.resultCardConfirmIcon ??
                         Icon(Icons.arrow_forward),
@@ -454,13 +450,10 @@ class _MapFabs extends StatelessWidget {
     @required this.onMyLocationPressed,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
-
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
-
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
-
   @override
   Widget build(BuildContext context) {
     return Container(

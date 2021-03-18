@@ -20,6 +20,7 @@ import 'model/nearby_place.dart';
 import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
+  Function onConfirm;
   LocationPicker(
     this.apiKey, {
     Key key,
@@ -33,6 +34,7 @@ class LocationPicker extends StatefulWidget {
     this.appBarColor,
     this.searchBarBoxDecoration,
     this.hintText,
+        this.onConfirm,
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
     this.resultCardDecoration,
@@ -407,6 +409,7 @@ class LocationPickerState extends State<LocationPicker> {
           ),
           body: MapPicker(
             widget.apiKey,
+            onConfirm: widget.onConfirm,
             initialCenter: widget.initialCenter,
             initialZoom: widget.initialZoom,
             requiredGPS: widget.requiredGPS,
@@ -453,6 +456,7 @@ Future<LocationResult> showLocationPicker(
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
   String mapStylePath,
+      Function onConfirm,
   Color appBarColor = Colors.transparent,
   BoxDecoration searchBarBoxDecoration,
   String hintText,
@@ -469,6 +473,7 @@ Future<LocationResult> showLocationPicker(
         // print('[LocationPicker] [countries] ${countries.join(', ')}');
         return LocationPicker(
           apiKey,
+          onConfirm: onConfirm,
           initialCenter: initialCenter,
           initialZoom: initialZoom,
           requiredGPS: requiredGPS,
